@@ -6,13 +6,7 @@ terraform {
     }
   }
 
-  backend "remote" {
-    organization = "sean-kim-demo-corp"
-
-    workspaces {
-      name = var.ENVIRONMENT
-    }
-  }
+  backend "remote" {}
 }
 
 provider "snowflake" {

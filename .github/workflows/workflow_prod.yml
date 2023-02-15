@@ -8,7 +8,7 @@ on:
 
 jobs:
   snowflake-terraform-demo:
-    name: "Snowflake Terraform Demo Job"
+    name: "Snowflake Job on Prod"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -25,7 +25,9 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init
+        run: terraform init \
+          -backend-config="organization=sean-kim-demo-corp" \
+          -backend-config="workspace=PROD"
 
       - name: Terraform Validate
         id: validate
