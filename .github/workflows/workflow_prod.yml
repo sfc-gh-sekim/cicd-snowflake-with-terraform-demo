@@ -38,8 +38,6 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform plan -no-color
         continue-on-error: true
-        env:
-          ENVIRONMENT: PROD
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -48,5 +46,3 @@ jobs:
       - name: Terraform Apply
         if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
-        env:
-          ENVIRONMENT: PROD
