@@ -27,8 +27,8 @@ jobs:
         id: init
         run: terraform init
         env:
-          TF_CLOUD_ORGANIZATION='sean-kim-demo-corp'
-          TF_WORKSPACE='STAGING'
+          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
+          TF_WORKSPACE: STAGING
 
       - name: Terraform Validate
         id: validate
