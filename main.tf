@@ -6,7 +6,7 @@ terraform {
     }
   }
 
-  backend "cloud" {}
+  cloud {}
 }
 
 provider "snowflake" {
