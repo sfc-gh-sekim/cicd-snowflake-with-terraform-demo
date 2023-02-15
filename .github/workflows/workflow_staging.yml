@@ -1,4 +1,4 @@
-name: "Snowflake Terraform Demo Workflow - Staging"
+name: "Staging Workflow"
 
 on:
   push:
