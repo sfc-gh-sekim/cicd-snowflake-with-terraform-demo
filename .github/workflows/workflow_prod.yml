@@ -25,9 +25,10 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init \
-          -backend-config="organization=sean-kim-demo-corp" \
-          -backend-config="workspace=PROD"
+        run: terraform init 
+        env:
+          TF_CLOUD_ORGANIZATION='sean-kim-demo-corp'
+          TF_WORKSPACE='PROD'
 
       - name: Terraform Validate
         id: validate
