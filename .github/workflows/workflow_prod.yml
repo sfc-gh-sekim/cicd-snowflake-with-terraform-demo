@@ -36,14 +36,18 @@ jobs:
 
       - name: Terraform Plan
         id: plan
-        if: github.event_name == 'pull_request'
         run: terraform plan -no-color
         continue-on-error: true
+        env:
+          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
+          TF_WORKSPACE: PROD
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
         run: exit 1
 
       - name: Terraform Apply
-        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
         run: terraform apply -auto-approve
+        env:
+          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
+          TF_WORKSPACE: PROD
