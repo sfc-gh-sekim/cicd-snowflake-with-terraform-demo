@@ -6,6 +6,14 @@ on:
       - staging
   pull_request:
 
+env:
+  TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
+  TF_WORKSPACE: STAGING
+  TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  TF_VAR_SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
+  TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+  TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
 jobs:
   snowflake-terraform-demo:
     name: "Snowflake Job on Staging"
@@ -26,9 +34,6 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform init
-        env:
-          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
-          TF_WORKSPACE: STAGING
 
       - name: Terraform Validate
         id: validate
@@ -38,9 +43,6 @@ jobs:
         id: plan
         run: terraform plan -no-color
         continue-on-error: true
-        env:
-          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
-          TF_WORKSPACE: STAGING
 
       - name: Terraform Plan Status
         if: steps.plan.outcome == 'failure'
@@ -48,6 +50,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -auto-approve
-        env:
-          TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
-          TF_WORKSPACE: STAGING
