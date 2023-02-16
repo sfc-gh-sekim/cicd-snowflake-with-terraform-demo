@@ -37,12 +37,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: terraform validate -no-color
-        env:
-          TF_VAR_SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-          TF_VAR_SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
-          TF_VAR_SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-          TF_VAR_SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+        run: terraform validate -no-color -var="snowflake_account=${{ secrets.SNOWFLAKE_ACCOUNT }}" -var="snowflake_region=${{ secrets.SNOWFLAKE_REGION }}" -var="snowflake_user=${{ secrets.SNOWFLAKE_USER }} -var="${{ secrets.SNOWFLAKE_PASSWORD }}"
 
       - name: Terraform Plan
         id: plan
