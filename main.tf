@@ -9,8 +9,6 @@ terraform {
   cloud {}
 }
 
-variable ""
-
 provider "snowflake" {
 }
 
