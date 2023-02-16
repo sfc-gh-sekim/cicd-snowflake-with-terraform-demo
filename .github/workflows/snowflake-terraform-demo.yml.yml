@@ -1,22 +1,13 @@
-name: "Production Workflow"
+name: "Snowflake Terraform Demo Workflow"
 
 on:
   push:
     branches:
       - main
-  pull_request:
-
-env:
-  TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
-  TF_WORKSPACE: PROD
-  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-  SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
-  SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
-  SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
 jobs:
   snowflake-terraform-demo:
-    name: "Snowflake Job on Prod"
+    name: "Snowflake Terraform Demo Job"
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -33,20 +24,12 @@ jobs:
 
       - name: Terraform Init
         id: init
-        run: terraform init 
+        run: terraform init
 
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
 
-      - name: Terraform Plan
-        id: plan
-        run: terraform plan -no-color
-        continue-on-error: true
-
-      - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
-        run: exit 1
-
       - name: Terraform Apply
+        id: apply
         run: terraform apply -auto-approve
