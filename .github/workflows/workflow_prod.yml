@@ -9,6 +9,10 @@ on:
 env:
   TF_CLOUD_ORGANIZATION: sean-kim-demo-corp
   TF_WORKSPACE: PROD
+  SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+  SNOWFLAKE_REGION: ${{ secrets.SNOWFLAKE_REGION }}
+  SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+  SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
 jobs:
   snowflake-terraform-demo:
@@ -33,12 +37,7 @@ jobs:
 
       - name: Terraform Validate
         id: validate
-        run: |
-          export SNOWFLAKE_ACCOUNT="${{ secrets.SNOWFLAKE_ACCOUNT }}"
-          export SNOWFLAKE_REGION="${{ secrets.SNOWFLAKE_REGION }}"
-          export SNOWFLAKE_USER="${{ secrets.SNOWFLAKE_USER }}"
-          export SNOWFLAKE_PASSWORD="${{ secrets.SNOWFLAKE_PASSWORD }}"
-          terraform validate -no-color
+        run: terraform validate -no-color
 
       - name: Terraform Plan
         id: plan
