@@ -37,7 +37,7 @@ jobs:
           export TF_VAR_SNOWFLAKE_ACCOUNT=${{ secrets.SNOWFLAKE_ACCOUNT }}
           export TF_VAR_SNOWFLAKE_REGION=${{ secrets.SNOWFLAKE_REGION }}
           export TF_VAR_SNOWFLAKE_USER=${{ secrets.SNOWFLAKE_USER }}
-          export TF_VAR_SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD }}"
+          export TF_VAR_SNOWFLAKE_PASSWORD=${{ secrets.SNOWFLAKE_PASSWORD }}
           terraform validate -no-color
 
       - name: Terraform Plan
