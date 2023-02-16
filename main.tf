@@ -7,10 +7,10 @@ terraform {
   }
 
   backend "remote" {
-    organization = "my-organization-name"
+    organization = "sean-kim-demo-corp"
 
     workspaces {
-      name = "gh-actions-demo"
+      name = "PROD"
     }
   }
 }
@@ -19,6 +19,6 @@ provider "snowflake" {
 }
 
 resource "snowflake_database" "demo_db" {
-  name    = "DEMO_DB"
+  name    = "DEMO_DB_${terraform.workspace}"
   comment = "Database for Snowflake Terraform demo"
 }
