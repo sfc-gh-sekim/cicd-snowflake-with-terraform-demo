@@ -1,8 +1,7 @@
-# cicd-snowflake-with-terraform-demo
+# CI/CD pipeline with Snowflake
 Demo of a CI/CD pipeline deployed onto Snowflake with Terraform
 
 ## Steps
-
 Install Terraform. On OSX, we recommend Homebrew:
 
 ```
