@@ -1,11 +1,11 @@
 variable "database" {
   type    = string
-  default = "TERRAFORM_DEMO_PROD"
+  default = "TERRAFORM_DEMO_STAGING"
 }
 
 variable "env_name" {
   type    = string
-  default = "PROD"
+  default = "STAGING"
 }
 
 variable "snowflake_private_key" {
