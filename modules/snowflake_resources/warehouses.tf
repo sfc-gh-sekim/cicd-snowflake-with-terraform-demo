@@ -3,8 +3,4 @@ resource "snowflake_warehouse" "task_warehouse" {
   warehouse_size = var.env_name == "PROD" ? "MEDIUM" : "XSMALL"
   auto_resume    = true
   auto_suspend   = 1
-  tag {
-    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
-    value = var.env_name
-  }
 }
