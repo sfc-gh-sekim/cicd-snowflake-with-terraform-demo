@@ -9,7 +9,7 @@ variable "env_name" {
 }
 
 variable "snowflake_private_key" {
-  type = string
+  type        = string
   description = "Private key used to access Snowflake"
-  sensitive = true
+  sensitive   = true
 }

@@ -25,7 +25,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform -chdir=./staging fmt -check
+        run: terraform -chdir=./staging fmt -recursive -check
 
       - name: Terraform Init
         id: init

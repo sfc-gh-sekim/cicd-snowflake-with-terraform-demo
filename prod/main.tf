@@ -17,9 +17,9 @@ terraform {
 }
 
 provider "snowflake" {
-  username = "TF_DEMO"
-  account = "tt28218.ap-southeast-2"
-  role = "TERRAFORM_DEPLOYER"
+  username    = "TF_DEMO"
+  account     = "tt28218.ap-southeast-2"
+  role        = "TERRAFORM_DEPLOYER"
   private_key = var.snowflake_private_key
 }
 
