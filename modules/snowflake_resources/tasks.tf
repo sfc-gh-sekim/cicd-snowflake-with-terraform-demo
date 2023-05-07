@@ -4,7 +4,7 @@ resource "snowflake_task" "generate_task" {
   schema        = snowflake_schema.tf_demo_schema.name
   schedule      = "1 minute"
   comment       = "Generates simulated real-time data for ingestion"
-  sql_statement = "call SIMULATE_KAFKA_STREAM('@VHOL_STAGE','SNOW_',1000000);"
+  sql_statement = "call SIMULATE_KAFKA_STREAM('@VHOL_STAGE','SNOW_',1000000)"
   enabled       = true
 }
 

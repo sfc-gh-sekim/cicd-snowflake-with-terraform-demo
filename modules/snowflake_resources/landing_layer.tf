@@ -1,16 +1,22 @@
+resource "snowflake_file_format" "tf_demo_file_format" {
+  name              = "VHOL_FILE_FORMAT"
+  database          = snowflake_database.tf_demo_database.name
+  schema            = snowflake_schema.tf_demo_schema.name
+  format_type       = "JSON"
+  strip_outer_array = true
+}
 
 resource "snowflake_stage" "tf_demo_stage" {
   name        = "VHOL_STAGE"
   database    = snowflake_database.tf_demo_database.name
   schema      = snowflake_schema.tf_demo_schema.name
-  file_format = "( TYPE=JSON,STRIP_OUTER_ARRAY=TRUE )"
+  file_format = snowflake_file_format.tf_demo_file_format.name
 }
 
 resource "snowflake_table" "tf_demo_table" {
-  name                = "CC_TRANS_LANDING"
-  database            = snowflake_database.tf_demo_database.name
-  schema              = snowflake_schema.tf_demo_schema.name
-  data_retention_days = var.time_travel_in_days
+  name     = "CC_TRANS_LANDING"
+  database = snowflake_database.tf_demo_database.name
+  schema   = snowflake_schema.tf_demo_schema.name
 
   column {
     name = "RECORD_CONTENT"
@@ -19,9 +25,10 @@ resource "snowflake_table" "tf_demo_table" {
 }
 
 resource "snowflake_view" "cc_trans_landing_view" {
-  name     = "CC_TRANS_LANDING_VIEW"
-  database = snowflake_database.tf_demo_database.name
-  schema   = snowflake_schema.tf_demo_schema.name
+  name       = "CC_TRANS_LANDING_VIEW"
+  database   = snowflake_database.tf_demo_database.name
+  schema     = snowflake_schema.tf_demo_schema.name
+  depends_on = [snowflake_table.tf_demo_table]
 
   statement = <<-SQL
         create or replace view CC_TRANS_LANDING_VIEW (card_id, merchant_id, transaction_id, amount, currency, approved, type, timestamp ) as (
