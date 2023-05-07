@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-terraform-prod:
     name: "Deploy Terraform plan on Prod"
-    if: github.ref_name == "main"
+    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
@@ -38,7 +38,11 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform -chdir=./prod plan 
+        with:
+          TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
 
       - name: Terraform Apply
         id: apply
         run: terraform -chdir=./prod apply -auto-approve
+        with:
+          TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}

@@ -16,6 +16,13 @@ terraform {
   }
 }
 
+provider "snowflake" {
+  username = "TF_DEMO"
+  account = "tt28218.ap-southeast-2"
+  role = "TERRAFORM_DEPLOYER"
+  private_key = var.snowflake_private_key
+}
+
 module "snowflake_resources" {
   source              = "../modules/snowflake_resources"
   time_travel_in_days = 30
