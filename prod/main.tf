@@ -31,8 +31,9 @@ module "snowflake_resources" {
 }
 
 module "kafka_stream" {
-  source   = "../modules/kafka_stream"
-  database = var.database
-  env_name = var.env_name
+  source     = "../modules/kafka_stream"
+  database   = var.database
+  env_name   = var.env_name
+  depends_on = [module.snowflake_resources]
 }
 
