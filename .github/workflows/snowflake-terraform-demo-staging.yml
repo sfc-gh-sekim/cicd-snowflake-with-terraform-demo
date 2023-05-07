@@ -7,7 +7,7 @@ on:
 jobs:
   deploy-terraform-staging:
     name: "Plan & Deploy Terraform plan on Staging"
-    if: github.ref_name == "staging"
+    if: github.ref_name == 'staging'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
