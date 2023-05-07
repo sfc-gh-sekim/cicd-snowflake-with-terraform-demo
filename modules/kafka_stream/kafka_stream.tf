@@ -22,4 +22,5 @@ resource "snowflake_procedure" "kafka_stream" {
   packages            = ["com.snowflake:snowpark:latest"]
   null_input_behavior = "RETURNS NULL ON NULL INPUT"
   statement           = file("${path.module}/src/kafka_stream.java")
+  handler             = "StreamDemo.run"
 }

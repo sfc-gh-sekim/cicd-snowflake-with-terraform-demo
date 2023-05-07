@@ -4,6 +4,11 @@ resource "snowflake_stage" "tf_demo_stage" {
   database    = snowflake_database.tf_demo_database.name
   schema      = snowflake_schema.tf_demo_schema.name
   file_format = "( TYPE=JSON,STRIP_OUTER_ARRAY=TRUE )"
+
+  tag {
+    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
+    value = var.env_name
+  }
 }
 
 resource "snowflake_table" "tf_demo_table" {
@@ -18,7 +23,7 @@ resource "snowflake_table" "tf_demo_table" {
   }
 
   tag {
-    name  = "env"
+    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
     value = var.env_name
   }
 }
@@ -46,7 +51,7 @@ resource "snowflake_view" "cc_trans_landing_view" {
   is_secure  = false
 
   tag {
-    name  = "env"
+    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
     value = var.env_name
   }
 }

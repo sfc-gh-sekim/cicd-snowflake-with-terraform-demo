@@ -4,7 +4,7 @@ resource "snowflake_warehouse" "task_warehouse" {
   auto_resume    = true
   auto_suspend   = 1
   tag {
-    name  = "env"
+    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
     value = var.env_name
   }
 }

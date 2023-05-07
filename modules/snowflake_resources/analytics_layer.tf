@@ -43,4 +43,9 @@ resource "snowflake_table" "cc_trans_all" {
     name = "TIMESTAMP"
     type = "DATETIME"
   }
+
+  tag {
+    name  = "CONTROL.ACC_LEVEL_TAGS.ENV"
+    value = var.env_name
+  }
 }
