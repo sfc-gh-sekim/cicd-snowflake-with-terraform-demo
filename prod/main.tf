@@ -37,3 +37,8 @@ module "kafka_stream" {
   depends_on = [module.snowflake_resources]
 }
 
+module "permissions" {
+  source     = "../modules/permissions"
+  depends_on = [module.kafka_stream]
+}
+
