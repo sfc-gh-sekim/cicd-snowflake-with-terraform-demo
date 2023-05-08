@@ -43,6 +43,8 @@ jobs:
         if: github.event_name == 'pull_request'
         run: terraform -chdir=./prod plan -no-color -input=false
         continue-on-error: true
+        env:
+          TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
 
       - name: Update Pull Request
         uses: actions/github-script@v6
