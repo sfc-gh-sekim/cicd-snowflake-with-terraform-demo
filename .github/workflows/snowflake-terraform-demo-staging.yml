@@ -4,7 +4,7 @@ on:
   push:
     branches: [ staging ]
   pull_request:
-    branches: [ main ]
+    branches: [ staging ]
 
 jobs:
   deploy-terraform-staging:
@@ -88,5 +88,5 @@ jobs:
             })
 
       - name: Terraform Plan Status
-        if: steps.plan.outcome == 'failure'
+        if: steps.plan_preprod.outcome == 'failure'
         run: exit 1
