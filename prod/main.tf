@@ -25,7 +25,7 @@ provider "snowflake" {
 
 module "snowflake_resources" {
   source              = "../modules/snowflake_resources"
-  time_travel_in_days = 1
+  time_travel_in_days = 30
   database            = var.database
   env_name            = var.env_name
 }
@@ -36,9 +36,3 @@ module "kafka_stream" {
   env_name   = var.env_name
   depends_on = [module.snowflake_resources]
 }
-
-module "permissions" {
-  source     = "../modules/permissions"
-  depends_on = [module.kafka_stream]
-}
-
