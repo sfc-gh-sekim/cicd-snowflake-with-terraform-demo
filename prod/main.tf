@@ -36,3 +36,7 @@ module "kafka_stream" {
   env_name   = var.env_name
   depends_on = [module.snowflake_resources]
 }
+
+module "roles" {
+  source = "../modules/roles"
+}
