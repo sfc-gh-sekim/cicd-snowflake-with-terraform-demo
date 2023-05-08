@@ -2,13 +2,16 @@ name: "PRODUCTION ENV: Snowflake Terraform Demo Workflow"
 
 on: 
   push:
-    branches: [ main ]
+    branches:
+      - main
   pull_request:
 
 jobs:
   deploy-terraform-prod:
     name: "Deploy Terraform plan on Prod"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
