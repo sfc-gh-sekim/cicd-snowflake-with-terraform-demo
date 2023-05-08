@@ -32,7 +32,7 @@ jobs:
 
       - name: Terraform Format
         id: fmt
-        run: terraform fmt -chdir=./prod -recursive -check
+        run: terraform -chdir=./prod fmt -recursive -check
 
       - name: Terraform Validate
         id: validate
