@@ -3,7 +3,7 @@ name: "STAGING ENV: Snowflake Terraform Demo Workflow"
 on: 
   push:
     branches: [ staging ]
-  pull-request:
+  pull_request:
     branches: [ staging ]
 
 jobs:
@@ -11,6 +11,8 @@ jobs:
     name: "Plan & Deploy Terraform plan on Staging"
     if: github.ref_name == 'staging'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v3
