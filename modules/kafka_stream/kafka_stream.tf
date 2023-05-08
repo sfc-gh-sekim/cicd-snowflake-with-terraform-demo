@@ -5,15 +5,15 @@ resource "snowflake_procedure" "kafka_stream" {
   language = "JAVA"
   arguments {
     name = "mystage"
-    type = "STRING"
+    type = "VARCHAR"
   }
   arguments {
     name = "prefix"
-    type = "STRING"
+    type = "VARCHAR"
   }
   arguments {
     name = "numlines"
-    type = "INTEGER"
+    type = "NUMBER"
   }
   comment             = "Stored proc that simulates a Kafka stream."
   return_type         = "VARCHAR(16777216)"
