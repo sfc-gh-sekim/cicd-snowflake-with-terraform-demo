@@ -3,6 +3,7 @@ name: "PRODUCTION ENV: Snowflake Terraform Demo Workflow"
 on: 
   push:
     branches: [ main ]
+  pull_request:
 
 jobs:
   deploy-terraform-prod:
@@ -27,22 +28,49 @@ jobs:
         id: init
         run: terraform -chdir=./prod init
 
-      - name: Terraform Format
-        id: fmt
-        run: terraform fmt -chdir=./prod -recursive -check
-
-      - name: Terraform Validate
-        id: validate
-        run: terraform -chdir=./prod validate -no-color
-      
-      - name: Terraform Plan
+      - name: Terraform Plan on Prod for PR
         id: plan
-        run: terraform -chdir=./prod plan 
+        if: github.event_name == 'pull_request'
+        run: terraform -chdir=./prod plan -no-color -input=false
+        continue-on-error: true
+
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
         env:
-          TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+          PLAN: "${{ steps.plan_preprod.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`terraform\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
 
       - name: Terraform Apply
         id: apply
-        run: terraform -chdir=./prod apply -auto-approve
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform -chdir=./prod apply -auto-approve -input=false
         env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
