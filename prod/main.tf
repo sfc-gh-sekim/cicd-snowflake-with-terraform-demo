@@ -23,11 +23,16 @@ provider "snowflake" {
   private_key = var.snowflake_private_key
 }
 
+module "roles" {
+  source = "../modules/roles"
+}
+
 module "snowflake_resources" {
   source              = "../modules/snowflake_resources"
   time_travel_in_days = 30
   database            = var.database
   env_name            = var.env_name
+  depends_on          = [module.roles]
 }
 
 module "kafka_stream" {
@@ -35,8 +40,4 @@ module "kafka_stream" {
   database   = var.database
   env_name   = var.env_name
   depends_on = [module.snowflake_resources]
-}
-
-module "roles" {
-  source = "../modules/roles"
 }
