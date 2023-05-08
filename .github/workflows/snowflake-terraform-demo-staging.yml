@@ -4,7 +4,7 @@ on:
   push:
     branches: [ staging ]
   pull_request:
-    branches: [ staging ]
+    branches: [ main ]
 
 jobs:
   deploy-terraform-staging:
