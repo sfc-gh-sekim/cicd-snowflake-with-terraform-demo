@@ -8,7 +8,6 @@ on:
 jobs:
   deploy-terraform-prod:
     name: "Deploy Terraform plan on Prod"
-    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
