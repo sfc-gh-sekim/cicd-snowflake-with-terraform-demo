@@ -28,6 +28,14 @@ jobs:
         id: init
         run: terraform -chdir=./prod init
 
+      - name: Terraform Format
+        id: fmt
+        run: terraform fmt -chdir=./prod -recursive -check
+
+      - name: Terraform Validate
+        id: validate
+        run: terraform -chdir=./prod validate -no-color
+
       - name: Terraform Plan on Prod for PR
         id: plan
         if: github.event_name == 'pull_request'
