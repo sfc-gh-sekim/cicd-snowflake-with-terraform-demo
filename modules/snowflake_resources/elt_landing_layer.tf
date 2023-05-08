@@ -6,9 +6,10 @@ resource "snowflake_stage" "tf_demo_stage" {
 }
 
 resource "snowflake_table" "tf_demo_table" {
-  name     = "CC_TRANS_LANDING"
-  database = snowflake_database.tf_demo_database.name
-  schema   = snowflake_schema.tf_demo_schema.name
+  name            = "CC_TRANS_LANDING"
+  database        = snowflake_database.tf_demo_database.name
+  schema          = snowflake_schema.tf_demo_schema.name
+  change_tracking = true
 
   column {
     name = "RECORD_CONTENT"
