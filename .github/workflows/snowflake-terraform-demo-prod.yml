@@ -2,47 +2,87 @@ name: "PRODUCTION ENV: Snowflake Terraform Demo Workflow"
 
 on: 
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
 
 jobs:
   deploy-terraform-prod:
     name: "Deploy Terraform plan on Prod"
-    if: github.ref_name == 'main'
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout
         uses: actions/checkout@v2
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-2
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Format
-        id: fmt
-        run: terraform -chdir=./prod fmt -check
-
+        uses: hashicorp/setup-terraform@v2
+      
       - name: Terraform Init
         id: init
         run: terraform -chdir=./prod init
 
+      - name: Terraform Format
+        id: fmt
+        run: terraform -chdir=./prod fmt -recursive -check
+
       - name: Terraform Validate
         id: validate
         run: terraform -chdir=./prod validate -no-color
-      
-      - name: Terraform Plan
+
+      - name: Terraform Plan on Prod for PR
         id: plan
-        run: terraform -chdir=./prod plan 
-        with:
+        if: github.event_name == 'pull_request'
+        run: terraform -chdir=./prod plan -no-color -input=false
+        continue-on-error: true
+        env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
+
+      - name: Update Pull Request
+        uses: actions/github-script@v6
+        if: github.event_name == 'pull_request'
+        env:
+          PLAN: "${{ steps.plan.outputs.stdout }}"
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const output = `#### Terraform Format and Style 🖌\`${{ steps.fmt.outcome }}\`
+            #### Terraform Initialization ⚙️\`${{ steps.init.outcome }}\`
+            #### Terraform Plan 📖\`${{ steps.plan.outcome }}\`
+            #### Terraform Validation 🤖\`${{ steps.validate.outcome }}\`
+
+            <details><summary>Show Plan</summary>
+
+            \`\`\`terraform\n
+            ${process.env.PLAN}
+            \`\`\`
+
+            </details>
+
+            *Pushed by: @${{ github.actor }}, Action: \`${{ github.event_name }}\`*`;
+
+            github.rest.issues.createComment({
+              issue_number: context.issue.number,
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              body: output
+            })
+
+      - name: Terraform Plan Status
+        if: steps.plan.outcome == 'failure'
+        run: exit 1
 
       - name: Terraform Apply
         id: apply
-        run: terraform -chdir=./prod apply -auto-approve
-        with:
+        if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+        run: terraform -chdir=./prod apply -auto-approve -input=false
+        env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}

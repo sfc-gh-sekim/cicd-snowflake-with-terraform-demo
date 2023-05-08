@@ -1,8 +1,7 @@
 resource "snowflake_table" "cc_trans_all" {
-  name                = "CC_TRANS_ALL"
-  database            = snowflake_database.tf_demo_database.name
-  schema              = snowflake_schema.tf_demo_schema.name
-  data_retention_days = var.time_travel_in_days
+  name     = "CC_TRANS_ALL"
+  database = snowflake_database.tf_demo_database.name
+  schema   = snowflake_schema.tf_demo_schema.name
 
   column {
     name = "CARD_ID"
@@ -41,6 +40,6 @@ resource "snowflake_table" "cc_trans_all" {
 
   column {
     name = "TIMESTAMP"
-    type = "DATETIME"
+    type = "TIMESTAMP_NTZ(9)"
   }
 }

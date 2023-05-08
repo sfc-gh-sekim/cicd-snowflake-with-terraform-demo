@@ -2,36 +2,36 @@ name: "STAGING ENV: Snowflake Terraform Demo Workflow"
 
 on: 
   push:
-    branches: [ staging ]
-  pull-request:
-    branches: [ staging ]
+    branches: 
+      - staging
 
 jobs:
   deploy-terraform-staging:
     name: "Plan & Deploy Terraform plan on Staging"
-    if: github.ref_name == "staging"
     runs-on: ubuntu-latest
+    permissions:
+      pull-requests: write
     steps:
       - name: Checkout
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
 
       - name: Configure AWS credentials
-        uses: aws-actions/configure-aws-credentials@v1
+        uses: aws-actions/configure-aws-credentials@v2
         with:
           aws-access-key-id: ${{ secrets.AWS_ACCESS_KEY_ID }}
           aws-secret-access-key: ${{ secrets.AWS_SECRET_ACCESS_KEY }}
           aws-region: ap-southeast-2
 
       - name: Setup Terraform
-        uses: hashicorp/setup-terraform@v1
-
-      - name: Terraform Format
-        id: fmt
-        run: terraform -chdir=./staging fmt -check
-
+        uses: hashicorp/setup-terraform@v2
+      
       - name: Terraform Init
         id: init
         run: terraform -chdir=./staging init
+
+      - name: Terraform Format
+        id: fmt
+        run: terraform -chdir=./staging fmt -recursive -check
 
       - name: Terraform Validate
         id: validate
@@ -40,11 +40,11 @@ jobs:
       - name: Terraform Plan
         id: plan
         run: terraform -chdir=./staging plan 
-        with:
+        env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
 
       - name: Terraform Apply
         id: apply
         run: terraform -chdir=./staging apply -auto-approve
-        with:
+        env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}

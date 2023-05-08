@@ -17,12 +17,11 @@ terraform {
 }
 
 provider "snowflake" {
-  username = "TF_DEMO"
-  account = "tt28218.ap-southeast-2"
-  role = "TERRAFORM_DEPLOYER"
+  username    = "CICD_DEPLOYER"
+  account     = "tt28218.ap-southeast-2"
+  role        = "ACCOUNTADMIN"
   private_key = var.snowflake_private_key
 }
-
 
 module "snowflake_resources" {
   source              = "../modules/snowflake_resources"
@@ -32,7 +31,8 @@ module "snowflake_resources" {
 }
 
 module "kafka_stream" {
-  source   = "../modules/kafka_stream"
-  database = var.database
-  env_name = var.env_name
+  source     = "../modules/kafka_stream"
+  database   = var.database
+  env_name   = var.env_name
+  depends_on = [module.snowflake_resources]
 }
