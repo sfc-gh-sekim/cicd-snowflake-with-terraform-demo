@@ -1,5 +1,5 @@
 resource "snowflake_role" "tf_demo_reader_role" {
-  name    = "TF_DEMO_READER"
+  name    = "TF_DEMO_READER_${var.env_name}"
   comment = "Reader role for Terraform demo"
 }
 
