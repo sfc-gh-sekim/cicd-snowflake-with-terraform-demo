@@ -28,5 +28,4 @@ module "snowflake_resources" {
   time_travel_in_days = 30
   database            = var.database
   env_name            = var.env_name
-  depends_on          = [module.roles]
 }
