@@ -2,7 +2,7 @@ resource "snowflake_database" "tf_demo_database" {
   name = var.database
 }
 
-# Set data retention period on DB
+## Set data retention period on DB
 resource "snowflake_object_parameter" "o" {
   key         = "DATA_RETENTION_TIME_IN_DAYS"
   value       = var.time_travel_in_days
