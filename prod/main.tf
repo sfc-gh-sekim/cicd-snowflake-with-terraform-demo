@@ -18,10 +18,10 @@ terraform {
 }
 
 provider "snowflake" {
-  username    = "<your_snowflake_username>"
-  account     = "<your_snowflake_account_identifier>"
-  role        = "<your_snowflake_role>"
-  private_key = var.snowflake_private_key
+  username    = "tf-snow"
+  account     = "jg85521.canada-central.azure"
+  role        = "SYSADMIN"
+  private_key_path = var.snowflake_private_key_path
 }
 
 module "snowflake_resources" {

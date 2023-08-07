@@ -8,8 +8,8 @@ variable "env_name" {
   default = "PROD"
 }
 
-variable "snowflake_private_key" {
+variable "snowflake_private_key_path" {
   type        = string
   description = "Private key used to access Snowflake"
-  sensitive   = true
+  default = "~/.ssh/snowflake_tf_snow_key.p8"
 }
