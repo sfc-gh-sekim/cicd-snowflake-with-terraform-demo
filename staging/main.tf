@@ -6,9 +6,9 @@ terraform {
     }
   }
 
-backend "s3" {
+  backend "s3" {
     bucket         = "snowflake-tf-hc"
-    key            = "terraform-prod.tfstate"
+    key            = "terraform-staging.tfstate"
     region         = "us-east-1"
     # Optional DynamoDB for state locking. See https://developer.hashicorp.com/terraform/language/settings/backends/s3 for details.
     # dynamodb_table = "terraform-state-lock-table"
@@ -22,6 +22,7 @@ provider "snowflake" {
   account     = "walqygi-hrb94914"
   role        = "ACCOUNTADMIN"
   private_key = var.snowflake_private_key
+}
 
 module "snowflake_resources" {
   source              = "../modules/snowflake_resources"
