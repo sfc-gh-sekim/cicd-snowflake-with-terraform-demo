@@ -2,7 +2,7 @@ resource "snowflake_user" "nganage" {
   name                 = "NGANAGE"
   comment              = "Nikhil Ganage, Data Eng, Contractor"
   default_namespace    = ""
-  default_role         = snowflake_role.sysadmin.name # Update this as needed
+  default_role         = snowflake_role.de_devs.name # Update this as needed
   disabled             = false
   display_name         = "nganage"
   email                = "nikhil.ganage@gmail.com"
