@@ -24,5 +24,5 @@ provider "snowflake" {
 
 
 module "snowflake_resources" {
-  source              = "../modules/snowflake_resources"
+  source = "../modules/snowflake_resources"
 }
