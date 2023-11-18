@@ -22,7 +22,23 @@ provider "snowflake" {
   private_key = var.snowflake_private_key
 }
 
+provider "snowflake" {
+  username    = "CICDDEPLOYER"
+  account     = "walqygi-hrb94914"
+  role        = "SYSADMIN"
+  private_key = var.snowflake_private_key
+  alias       = "sys"
+}
+
+provider "snowflake" {
+  username    = "CICDDEPLOYER"
+  account     = "walqygi-hrb94914"
+  role        = "SECURITYADMIN"
+  private_key = var.snowflake_private_key
+  alias       = "security"
+}
 
 module "snowflake_resources" {
   source = "../modules/snowflake_resources"
+  snowflake_private_key = var.snowflake_private_key
 }
