@@ -29,6 +29,8 @@ jobs:
       - name: Terraform Init
         id: init
         run: terraform -chdir=./prod init
+        env:
+          TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
 
       - name: Terraform Format
         id: fmt
