@@ -42,3 +42,8 @@ module "snowflake_resources" {
   source                = "../modules/snowflake_resources"
   snowflake_private_key = var.snowflake_private_key
 }
+
+module "snowflake_warehouses" {
+  source                = "../modules/warehouses"
+  snowflake_private_key = var.snowflake_private_key
+}
