@@ -43,8 +43,8 @@ jobs:
         env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
 
-      - name: Terraform Apply
-        id: apply
-        run: terraform -chdir=./staging apply -auto-approve
+      - name: Terraform Destroy
+        id: destroy
+        run: terraform -chdir=./staging destroy -auto-approve
         env:
           TF_VAR_snowflake_private_key: ${{ secrets.SNOWFLAKE_PRIVATE_KEY }}
