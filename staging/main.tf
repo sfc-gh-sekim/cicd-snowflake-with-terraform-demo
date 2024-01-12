@@ -8,7 +8,7 @@ terraform {
 }
 
 provider "snowflake" {
-  # username    = "tf-snow"
+  username    = "tf-snow"
   # region      = "us-east-2"
   account     = "lpkqvri-df00607"
   # account     = "ID00508"
