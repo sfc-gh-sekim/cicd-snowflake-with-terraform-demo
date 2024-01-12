@@ -13,7 +13,7 @@ provider "snowflake" {
   account     = "lpkqvri-df00607"
   # account     = "ID00508"
   role        = "SYSADMIN"
-  private_key_path = "~/.ssh/snowflake_tf_snow_key.p8"
+  private_key_path = var.snowflake_private_key
 }
 
 module "snowflake_resources" {
